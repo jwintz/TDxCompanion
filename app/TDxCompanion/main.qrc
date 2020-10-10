@@ -1,0 +1,9 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+  <qresource prefix="/">
+    <file>TDxCompanion-light.png</file>
+    <file>TDxCompanion-dark.png</file>
+    <file>TDxCompanion-on.png</file>
+    <file>TDxCompanion-off.png</file>
+  </qresource>
+</RCC>
