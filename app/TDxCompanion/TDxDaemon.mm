@@ -15,6 +15,10 @@
 #include "TDxDaemon.h"
 
 // /////////////////////////////////////////////////////////////////////////////
+
+#import "TDxCompanionActionExecutor.h"
+
+// /////////////////////////////////////////////////////////////////////////////
 // macOS driver backend                                     // TODO: To be split
 // /////////////////////////////////////////////////////////////////////////////
 
@@ -96,6 +100,9 @@ public:
 
 public:
     int status;
+
+public:
+    TDxCompanionActionExecutor *executor;
 };
 
 TDxDaemonPrivate *TDxDaemonPrivate::self = NULL;
@@ -107,10 +114,14 @@ TDxDaemonPrivate *TDxDaemonPrivate::self = NULL;
 TDxDaemon::TDxDaemon(QObject *parent) : QObject(parent), d(new TDxDaemonPrivate)
 {
     d->self = d;
+
+    d->executor = [[TDxCompanionActionExecutor alloc] init];
 }
 
 TDxDaemon::~TDxDaemon(void)
 {
+    [d->executor dealloc];
+
     delete d;
 }
 

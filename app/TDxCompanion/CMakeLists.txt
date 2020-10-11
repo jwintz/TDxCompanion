@@ -67,7 +67,7 @@ set(${PROJECT_NAME}_SOURCES
   TDxCompanionTypeAction.m
   TDxCompanionWaitAction.m
   TDxCompanionWindow.mm
-  TDxDaemon.cpp)
+  TDxDaemon.mm)
 
 set(${PROJECT_NAME}_SOURCES ${${PROJECT_NAME}_SOURCES}
   main.mm)
