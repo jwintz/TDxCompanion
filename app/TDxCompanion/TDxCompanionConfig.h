@@ -12,8 +12,6 @@
 
 // Code:
 
-#pragma once
-
 #define MODE_REGULAR 0
 #define MODE_VERBOSE 1
 #define MODE_TEST 2

@@ -1,7 +1,18 @@
+// Version: $Id$
+//
+//
+
+// Commentary:
+//
+//
+
+// Change Log:
+//
+//
+
+// Code:
 
 #import "TDxCompanionOutputHandler.h"
-
-#pragma once
 
 struct TDxCompanionExecutionOptions {
     unsigned mode;
@@ -12,3 +23,6 @@ struct TDxCompanionExecutionOptions {
     TDxCompanionOutputHandler *verbosityOutputHandler;
     TDxCompanionOutputHandler *commandOutputHandler;
 };
+
+//
+// TDxCompanionExecutionOptions.h ends here

@@ -1,3 +1,16 @@
+// Version: $Id$
+//
+//
+
+// Commentary:
+//
+//
+
+// Change Log:
+//
+//
+
+// Code:
 
 #import <Cocoa/Cocoa.h>
 
@@ -15,3 +28,6 @@
                   withOptions:(struct TDxCompanionExecutionOptions)options;
 
 @end
+
+//
+// TDxCompanionColorPickerAction.h ends here

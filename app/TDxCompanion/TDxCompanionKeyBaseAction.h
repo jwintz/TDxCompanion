@@ -12,6 +12,8 @@
 
 // Code:
 
+#pragma once
+
 #import <Cocoa/Cocoa.h>
 
 #import "TDxCompanionActionProtocol.h"

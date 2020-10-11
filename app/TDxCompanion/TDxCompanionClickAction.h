@@ -1,3 +1,16 @@
+// Version: $Id$
+//
+//
+
+// Commentary:
+//
+//
+
+// Change Log:
+//
+//
+
+// Code:
 
 #import <Cocoa/Cocoa.h>
 
@@ -17,3 +30,6 @@
 - (void)performActionAtPoint:(CGPoint) p;
 
 @end
+
+//
+// TDxCompanionClickAction.h ends here

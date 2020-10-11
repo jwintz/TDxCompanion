@@ -15,6 +15,8 @@
 #include "TDxDaemon.h"
 #include "TDxCompanionWindow.h"
 
+#import "TDxCompanionMoveAction.h"
+
 // /////////////////////////////////////////////////////////////////////////////
 //
 // /////////////////////////////////////////////////////////////////////////////
@@ -34,6 +36,9 @@ public:
 
 public:
     TDxDaemon *daemon;
+
+// public:
+//     TDxCompanionMoveAction *moveAction;
 };
 
 // /////////////////////////////////////////////////////////////////////////////
@@ -45,6 +50,8 @@ TDxCompanionWindow::TDxCompanionWindow(QWidget *parent) : QDialog(parent)
     d = new TDxCompanionWindowPrivate;
 
     d->daemon = new TDxDaemon(this);
+
+    // d->moveAction = [[TDxCompanionMoveAction init] alloc];
 
     QAction *restoreAction = new QAction(tr("&Restore"), this);
     QAction *quitAction = new QAction(tr("&Quit"), this);
@@ -94,6 +101,8 @@ TDxCompanionWindow::TDxCompanionWindow(QWidget *parent) : QDialog(parent)
 
 TDxCompanionWindow::~TDxCompanionWindow(void)
 {
+    // [d->moveAction dealloc];
+
     delete d;
 }
 

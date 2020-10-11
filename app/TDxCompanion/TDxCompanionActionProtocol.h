@@ -1,5 +1,21 @@
+// Version: $Id$
+//
+//
+
+// Commentary:
+//
+//
+
+// Change Log:
+//
+//
+
+// Code:
+
+#pragma once
 
 #import <Cocoa/Cocoa.h>
+
 #import "TDxCompanionExecutionOptions.h"
 
 @protocol TDxCompanionActionProtocol
@@ -35,3 +51,6 @@
                   withOptions:(struct TDxCompanionExecutionOptions)options;
 
 @end
+
+//
+// TDxCompanionActionProtocol.h ends here

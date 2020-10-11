@@ -66,7 +66,7 @@ set(${PROJECT_NAME}_SOURCES
   TDxCompanionTripleclickAction.m
   TDxCompanionTypeAction.m
   TDxCompanionWaitAction.m
-  TDxCompanionWindow.cpp
+  TDxCompanionWindow.mm
   TDxDaemon.cpp)
 
 set(${PROJECT_NAME}_SOURCES ${${PROJECT_NAME}_SOURCES}
@@ -91,9 +91,11 @@ target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Core)
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Gui)
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets)
 
+target_link_libraries(${PROJECT_NAME} PUBLIC "-framework Foundation")
 target_link_libraries(${PROJECT_NAME} PUBLIC "-framework AppKit")
 target_link_libraries(${PROJECT_NAME} PUBLIC "-framework Cocoa")
 target_link_libraries(${PROJECT_NAME} PUBLIC "-framework Carbon")
+
 target_link_libraries(${PROJECT_NAME} PUBLIC ${3DCONNEXIONCLIENT_FRAMEWORK})
 
 ######################################################################
