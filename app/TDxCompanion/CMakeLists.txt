@@ -90,6 +90,8 @@ add_executable(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Core)
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Gui)
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Quick)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::QuickControls2)
 
 target_link_libraries(${PROJECT_NAME} PUBLIC "-framework Foundation")
 target_link_libraries(${PROJECT_NAME} PUBLIC "-framework AppKit")

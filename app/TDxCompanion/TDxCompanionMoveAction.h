@@ -19,7 +19,8 @@
 #import "TDxCompanionMouseBaseAction.h"
 #import "TDxCompanionActionProtocol.h"
 
-@interface TDxCompanionMoveAction : TDxCompanionMouseBaseAction <TDxCompanionActionProtocol> {
+@interface TDxCompanionMoveAction : TDxCompanionMouseBaseAction <TDxCompanionActionProtocol>
+{
 
 }
 

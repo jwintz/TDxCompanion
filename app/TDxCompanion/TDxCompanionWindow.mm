@@ -15,7 +15,7 @@
 #include "TDxDaemon.h"
 #include "TDxCompanionWindow.h"
 
-#import "TDxCompanionMoveAction.h"
+#include <QtQuick>
 
 // /////////////////////////////////////////////////////////////////////////////
 //
@@ -36,6 +36,12 @@ public:
 
 public:
     TDxDaemon *daemon;
+
+public:
+    bool triggered = false;
+
+public:
+    QObject *root = nullptr;
 };
 
 // /////////////////////////////////////////////////////////////////////////////
@@ -57,13 +63,31 @@ TDxCompanionWindow::TDxCompanionWindow(QWidget *parent) : QDialog(parent)
     d->button_start = new QPushButton("Start Deamon", this);
     d->button_stop  = new QPushButton("Stop Deamon", this);
 
-    QHBoxLayout *s_layout = new QHBoxLayout;
+    QQuickView *view = new QQuickView;
+    view->engine()->addImportPath("qrc:/");
+    view->setSource(QUrl("qrc:/PieMenuControlView.qml"));
+
+    d->root = view->rootObject();
+
+    QWidget *container = QWidget::createWindowContainer(view);
+    container->setMinimumSize(QSize(400, 150));
+    container->setMaximumSize(QSize(400, 150));
+
+    QVBoxLayout *s_layout = new QVBoxLayout;
     s_layout->addWidget(d->button_start);
     s_layout->addWidget(d->button_stop);
+    s_layout->addStretch();
+
+    QHBoxLayout *t_layout = new QHBoxLayout;
+    t_layout->setContentsMargins(20, 20, 20, 20);
+    t_layout->addWidget(d->status);
+    t_layout->addLayout(s_layout);
 
     QVBoxLayout *layout = new QVBoxLayout(this);
-    layout->addWidget(d->status);
-    layout->addLayout(s_layout);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(0);
+    layout->addLayout(t_layout);
+    layout->addWidget(container);
 
     d->menu = new QMenu(this);
     d->menu->addAction(restoreAction);
@@ -76,7 +100,7 @@ TDxCompanionWindow::TDxCompanionWindow(QWidget *parent) : QDialog(parent)
     d->icon->show();
 
     this->setWindowTitle(tr("TDxCompanionWindow"));
-    this->resize(400, 300);
+    this->resize(400, 200);
 
     connect(d->button_start, SIGNAL(clicked()), this, SLOT(start()));
     connect(d->button_stop,  SIGNAL(clicked()), this, SLOT(stop()));
@@ -92,11 +116,19 @@ TDxCompanionWindow::TDxCompanionWindow(QWidget *parent) : QDialog(parent)
         d->daemon->uninitialize();
         qApp->quit();
     });
+
+    connect(d->daemon, &TDxDaemon::clicked, [=] (bool button_1, bool button_2)
+    {
+        if(button_2)
+            d->triggered = !d->triggered;
+
+        d->root->setProperty("triggered", d->triggered);
+    });
 }
 
 TDxCompanionWindow::~TDxCompanionWindow(void)
 {
-    // [d->moveAction dealloc];
+    this->stop();
 
     delete d;
 }
@@ -108,20 +140,22 @@ void TDxCompanionWindow::setVisible(bool visible)
 
 void TDxCompanionWindow::start(void)
 {
-    if(!d->daemon->initialize()) {
+    if(!d->daemon->initialize())
         d->status->setPixmap(QPixmap(":/TDxCompanion-on.png"));
-    }
 
-    qDebug() << Q_FUNC_INFO << d->daemon->initialized();
+    d->root->setProperty("triggered", false);
+
+    // qDebug() << Q_FUNC_INFO << d->daemon->initialized();
 }
 
 void TDxCompanionWindow::stop(void)
 {
-    if(!d->daemon->uninitialize()) {
+    if(!d->daemon->uninitialize())
         d->status->setPixmap(QPixmap(":/TDxCompanion-off.png"));
-    }
 
-    qDebug() << Q_FUNC_INFO << d->daemon->initialized();
+    d->root->setProperty("triggered", false);
+
+    // qDebug() << Q_FUNC_INFO << d->daemon->initialized();
 }
 
 void TDxCompanionWindow::closeEvent(QCloseEvent *event)

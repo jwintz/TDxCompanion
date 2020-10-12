@@ -27,6 +27,9 @@ public:
      TDxDaemon(QObject *parent);
     ~TDxDaemon(void);
 
+signals:
+    void clicked(bool, bool);
+
 public:
     int   initialize(void);
     int uninitialize(void);

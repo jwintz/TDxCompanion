@@ -15,7 +15,6 @@
 #include <QtCore>
 #include <QtGui>
 #include <QtWidgets>
-#include <QtWidgets/QMacNativeWidget>
 
 // /////////////////////////////////////////////////////////////////////////////
 //

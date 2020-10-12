@@ -75,7 +75,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 ## Dependencies - external
 ## #################################################################
 
-find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets Network)
+find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets Network Quick QuickControls2)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)

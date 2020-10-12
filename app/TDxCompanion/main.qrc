@@ -5,5 +5,15 @@
     <file>TDxCompanion-dark.png</file>
     <file>TDxCompanion-on.png</file>
     <file>TDxCompanion-off.png</file>
+    <file>TDxCompanion-lmb.png</file>
+    <file>TDxCompanion-rmb.png</file>
+
+    <file alias="PieMenuControlView.qml">TDxCompanionPieMenuControlView.qml</file>
+    <file alias="PieMenuDarkStyle.qml">TDxCompanionPieMenuDarkStyle.qml</file>
+    <file alias="PieMenuDefaultStyle.qml">TDxCompanionPieMenuDefaultStyle.qml</file>
+    <file alias="StylePicker.qml">TDxCompanionStylePicker.qml</file>
+
+    <file>images/background.png</file>
+
   </qresource>
 </RCC>

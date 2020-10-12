@@ -17,6 +17,10 @@
 // /////////////////////////////////////////////////////////////////////////////
 
 #import "TDxCompanionActionExecutor.h"
+#import "TDxCompanionConfig.h"
+#import "TDxCompanionClickAction.h"
+#import "TDxCompanionExecutionOptions.h"
+#import "TDxCompanionMoveAction.h"
 
 // /////////////////////////////////////////////////////////////////////////////
 // macOS driver backend                                     // TODO: To be split
@@ -35,6 +39,7 @@
 class TDxDaemonPrivate
 {
 public:
+    static TDxDaemon        *part;
     static TDxDaemonPrivate *self;
 
 #if defined(Q_OS_MAC)
@@ -47,6 +52,47 @@ public:
     static void removed(unsigned int id)
     {
         Q_UNUSED(id);
+    }
+
+    static void axis_handler(double tx, double ty, double tz)
+    {
+        QPoint position = QCursor::pos();
+        position += QPoint(tx, -ty);
+
+        QScreen *screen = qApp->screens().at(0);
+
+        if(position.x() < 0 || position.x() > screen->size().width())
+            return;
+
+        if(position.y() < 0 || position.y() > screen->size().height())
+            return;
+
+        struct TDxCompanionExecutionOptions options;
+        options.easing = 0;
+        options.waitTime = 0;
+        options.mode = MODE_REGULAR;
+
+        id moveAction = [[TDxCompanionMoveAction alloc] init];
+        [moveAction performActionWithData:[NSString stringWithFormat:@"%d,%d", position.x(), position.y()] withOptions: options];
+        [moveAction release];
+    }
+
+    static void button_handler(bool button_1)
+    {
+        if(!button_1)
+            return;
+
+        QPoint position = QCursor::pos();
+
+        struct TDxCompanionExecutionOptions options;
+        options.easing = 0;
+        options.waitTime = 0;
+        options.mode = MODE_REGULAR;
+
+        id clickAction = [[TDxCompanionClickAction alloc] init];
+        [clickAction performActionWithData:[NSString stringWithFormat:@"%d,%d", position.x(), position.y()] withOptions: options];
+        [clickAction release];
+
     }
 
     static void message(unsigned int id, unsigned int type, void *data)
@@ -77,12 +123,20 @@ public:
                 self->position = QVector3D(t_x, t_y, t_z);
                 self->orientation = QQuaternion::fromEulerAngles(r_x, r_y, r_z);
 
-                qDebug() << Q_FUNC_INFO << "Axis handler" << self->position << self->orientation;
+                axis_handler(t_x, t_y, t_z);
 
                 break;
 
             case kConnexionCmdHandleButtons:
-                qDebug() << Q_FUNC_INFO << "Button handler" << state->buttons;
+
+                // qDebug() << Q_FUNC_INFO << "button handler";
+                // qDebug() << Q_FUNC_INFO << "button handler (1)?" << (state->buttons & kConnexionMaskButton1);
+                // qDebug() << Q_FUNC_INFO << "button handler (2)?" << (state->buttons & kConnexionMaskButton2);
+
+                button_handler((state->buttons & kConnexionMaskButton1));
+
+                emit(part->clicked((state->buttons & kConnexionMaskButton1), (state->buttons & kConnexionMaskButton2)));
+
                 break;
 
             default:
@@ -105,7 +159,8 @@ public:
     TDxCompanionActionExecutor *executor;
 };
 
-TDxDaemonPrivate *TDxDaemonPrivate::self = NULL;
+TDxDaemon        *TDxDaemonPrivate::part = nullptr;
+TDxDaemonPrivate *TDxDaemonPrivate::self = nullptr;
 
 // ///////////////////////////////////////////////////////////////////
 // TDxDaemon
@@ -113,6 +168,7 @@ TDxDaemonPrivate *TDxDaemonPrivate::self = NULL;
 
 TDxDaemon::TDxDaemon(QObject *parent) : QObject(parent), d(new TDxDaemonPrivate)
 {
+    d->part = this;
     d->self = d;
 
     d->executor = [[TDxCompanionActionExecutor alloc] init];
